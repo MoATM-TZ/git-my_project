@@ -20,6 +20,8 @@
 /public/storage
 /storage/*.key
 /storage/pail
+# Local uploaded learning materials are runtime data, never source control
+/storage/app/public/uploads
 /vendor
 _ide_helper.php
 Homestead.json
