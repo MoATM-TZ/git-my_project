@@ -17,6 +17,8 @@ class SearchController extends Controller
 
         $term = trim((string) $request->query('q', ''));
         $category = (string) $request->query('category', '');
+        $fileType = (string) $request->query('file_type', '');
+        $classId = $request->integer('course_class_id');
         $sort = (string) $request->query('sort', 'recent');
 
         if ($term !== '') {
@@ -25,6 +27,12 @@ class SearchController extends Controller
 
         if ($category !== '' && array_key_exists($category, Resource::CATEGORIES)) {
             $query->where('category', $category);
+        }
+        if ($fileType !== '') {
+            $query->where('file_type', $fileType);
+        }
+        if ($classId) {
+            $query->where('course_class_id', $classId);
         }
 
         if ($sort === 'popular') {
@@ -42,6 +50,8 @@ class SearchController extends Controller
             'term'     => $term,
             'category' => $category,
             'sort'     => $sort,
+            'fileType' => $fileType,
+            'classId'  => $classId,
         ]);
     }
 

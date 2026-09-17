@@ -1,0 +1,4 @@
+<?php
+namespace App\Jobs;
+use App\Mail\AnnouncementMail; use App\Models\Announcement; use App\Services\SmsGateway; use Illuminate\Bus\Queueable; use Illuminate\Contracts\Queue\ShouldQueue; use Illuminate\Foundation\Bus\Dispatchable; use Illuminate\Queue\InteractsWithQueue; use Illuminate\Queue\SerializesModels; use Illuminate\Support\Facades\Mail;
+class SendAnnouncementNotifications implements ShouldQueue { use Dispatchable, InteractsWithQueue, Queueable, SerializesModels; public function __construct(public Announcement $announcement) {} public function handle(SmsGateway $sms): void { $announcement=$this->announcement->load('courseClass.students.studentProfile'); foreach ($announcement->courseClass->students as $student) { Mail::to($student->email)->send(new AnnouncementMail($announcement)); if ($student->studentProfile?->phone_number) $sms->send($student->studentProfile->phone_number, "{$announcement->courseClass->course_code}: {$announcement->title}"); } } }

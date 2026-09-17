@@ -26,6 +26,17 @@
             </dl>
         </div>
 
+        @if (in_array(strtolower((string) $resource->file_type), ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'webp']))
+            <section class="ll-card ll-section">
+                <h2>Preview</h2>
+                @if (strtolower((string) $resource->file_type) === 'pdf')
+                    <iframe title="{{ $resource->title }} preview" src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($resource->file_path) }}" style="width:100%; min-height: 560px;"></iframe>
+                @else
+                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($resource->file_path) }}" alt="Preview of {{ $resource->title }}" style="max-width:100%; height:auto;">
+                @endif
+            </section>
+        @endif
+
         @if ($resource->description)<section class="ll-card ll-section"><h2>About this resource</h2><p class="ll-prose">{{ $resource->description }}</p></section>@endif
 
         <section class="ll-card ll-section">

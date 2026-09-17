@@ -27,7 +27,8 @@ class ResourceController extends Controller
     /** Upload form — was the legacy upload.php. */
     public function create(): View
     {
-        return view('resources.create');
+        $classes = auth()->user()?->enrolledClasses()->get() ?? collect();
+        return view('resources.create', compact('classes'));
     }
 
     /**
@@ -39,6 +40,9 @@ class ResourceController extends Controller
      */
     public function store(StoreResourceRequest $request): RedirectResponse
     {
+        if ($request->validated('course_class_id')) {
+            abort_unless($request->user()->enrolledClasses()->whereKey($request->validated('course_class_id'))->exists() || $request->user()->role === 'lecturer', 403);
+        }
         /** @var \Illuminate\Http\UploadedFile $file */
         $file = $request->file('file');
 
@@ -49,9 +53,11 @@ class ResourceController extends Controller
                 'title'         => $request->validated('title'),
                 'description'   => $request->validated('description'),
                 'category'      => $request->validated('category'),
+                'course_class_id' => $request->validated('course_class_id'),
                 'file_path'     => $path,
                 'original_name' => $file->getClientOriginalName(),
                 'mime_type'     => $file->getClientMimeType(),
+                'file_type'     => $file->getClientOriginalExtension(),
                 'size_bytes'    => $file->getSize(),
                 'status'        => 'published',
             ]);
@@ -111,6 +117,7 @@ class ResourceController extends Controller
         abort_unless(Storage::disk('public')->exists($resource->file_path), 404);
 
         $resource->increment('download_count');
+        $resource->increment('downloads_count');
 
         return Storage::disk('public')->download(
             $resource->file_path,

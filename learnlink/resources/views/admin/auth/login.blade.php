@@ -1,0 +1,3 @@
+@extends('layouts.app')
+@section('title','Administrator login')
+@section('content')<section class="ll-page-head"><h1>Administrator portal</h1><p>Secure system administration access.</p></section><form method="POST" action="{{ route('admin.login.store') }}" class="ll-card ll-form ll-form-wide">@csrf<div class="ll-field"><label class="ll-label">Email</label><input class="ll-input" name="email" type="email" required></div><div class="ll-field"><label class="ll-label">Password</label><input class="ll-input" name="password" type="password" required></div>@error('email')<p class="ll-field-error">{{ $message }}</p>@enderror<button class="ll-btn ll-btn-primary">Sign in securely</button></form>@endsection

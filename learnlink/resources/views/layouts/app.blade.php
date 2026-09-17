@@ -30,6 +30,13 @@
                 </a>
 
                 @auth
+                    @if(auth()->user()->role === 'lecturer')
+                        <a href="{{ route('lecturer.dashboard') }}" class="ll-nav-link">Lecturer portal</a>
+                    @elseif(auth()->user()->role === 'student')
+                        <a href="{{ route('student.dashboard') }}" class="ll-nav-link">Student portal</a>
+                    @elseif(auth()->user()->role === 'admin')
+                        <a href="{{ route('admin.dashboard') }}" class="ll-nav-link">Admin portal</a>
+                    @endif
                     <a href="{{ route('resources.create') }}" class="ll-nav-link ll-nav-upload">
                         <x-icon name="upload" :size="16" /> Upload
                     </a>
@@ -73,8 +80,8 @@
 
                 @guest
                     <div class="ll-account-links">
-                        <a href="{{ route('login') }}" class="ll-btn ll-btn-ghost">Log in</a>
-                        <a href="{{ route('register') }}" class="ll-btn ll-btn-primary">Sign up</a>
+                        <a href="{{ route('student.login') }}" class="ll-btn ll-btn-ghost">Student login</a>
+                        <a href="{{ route('lecturer.login') }}" class="ll-btn ll-btn-primary">Lecturer login</a>
                     </div>
                 @endguest
 

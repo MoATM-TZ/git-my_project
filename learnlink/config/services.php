@@ -34,5 +34,9 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    'sms' => [
+        'url' => env('SMS_URL'),
+        'token' => env('SMS_TOKEN'),
+    ],
 
 ];

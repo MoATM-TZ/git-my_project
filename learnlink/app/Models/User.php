@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password', 'role', 'is_active'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -64,4 +65,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Reputation::class);
     }
+    public function studentProfile(): HasOne { return $this->hasOne(StudentProfile::class); }
+    public function lecturerProfile(): HasOne { return $this->hasOne(LecturerProfile::class); }
+    public function taughtClasses(): HasMany { return $this->hasMany(CourseClass::class, 'lecturer_id'); }
+    public function enrolledClasses(): \Illuminate\Database\Eloquent\Relations\BelongsToMany { return $this->belongsToMany(CourseClass::class, 'class_enrollments', 'student_id', 'course_class_id')->withTimestamps(); }
 }

@@ -1,0 +1,3 @@
+<?php
+namespace App\Http\Controllers\Admin; use App\Http\Controllers\Controller; use Illuminate\Http\Request; use Illuminate\Support\Facades\Auth; use Illuminate\Validation\ValidationException;
+class AdminAuthController extends Controller { public function create(){return view('admin.auth.login');} public function store(Request $request){$data=$request->validate(['email'=>['required','email'],'password'=>['required']]);if(Auth::attempt([...$data,'role'=>'admin','is_active'=>true],$request->boolean('remember'))){$request->session()->regenerate();return redirect()->route('admin.dashboard');}throw ValidationException::withMessages(['email'=>'These credentials do not match an active administrator account.']);} }

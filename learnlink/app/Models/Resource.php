@@ -25,6 +25,7 @@ class Resource extends Model
 
     protected $fillable = [
         'user_id',
+        'course_class_id',
         'title',
         'slug',
         'description',
@@ -32,8 +33,10 @@ class Resource extends Model
         'file_path',
         'original_name',
         'mime_type',
+        'file_type',
         'size_bytes',
         'download_count',
+        'downloads_count',
         'views_count',
         'status',
     ];
@@ -43,6 +46,7 @@ class Resource extends Model
         return [
             'size_bytes'     => 'integer',
             'download_count' => 'integer',
+            'downloads_count' => 'integer',
             'views_count'    => 'integer',
         ];
     }
@@ -70,6 +74,7 @@ class Resource extends Model
     {
         return $this->hasMany(Comment::class);
     }
+    public function courseClass(): BelongsTo { return $this->belongsTo(CourseClass::class); }
 
     public function votes(): HasMany
     {

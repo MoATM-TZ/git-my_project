@@ -29,11 +29,12 @@ class LoginController extends Controller
 
         $this->ensureIsNotRateLimited($request);
 
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+        if (Auth::attempt([...$credentials, 'is_active' => true], $request->boolean('remember'))) {
             $request->session()->regenerate();
             RateLimiter::clear($this->throttleKey($request));
 
-            return redirect()->intended(route('home'));
+            $destination = $request->user()->role === 'lecturer' ? route('lecturer.dashboard') : ($request->user()->role === 'student' ? route('student.dashboard') : route('home'));
+            return redirect()->intended($destination);
         }
 
         RateLimiter::hit($this->throttleKey($request), 60);

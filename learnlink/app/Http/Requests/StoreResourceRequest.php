@@ -24,6 +24,7 @@ class StoreResourceRequest extends FormRequest
         $allowedMimes = implode(',', [
             'pdf', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx',
             'txt', 'md', 'csv', 'zip',
+            'php', 'js', 'ts', 'jsx', 'tsx', 'py', 'java', 'c', 'cpp', 'cs', 'json', 'html', 'css', 'sql',
             'jpg', 'jpeg', 'png', 'gif', 'webp',
         ]);
 
@@ -31,6 +32,7 @@ class StoreResourceRequest extends FormRequest
             'title' => ['required', 'string', 'min:3', 'max:255'],
             'description' => ['nullable', 'string', 'max:5000'],
             'category' => ['required', 'string', 'in:'.implode(',', array_keys(Resource::CATEGORIES))],
+            'course_class_id' => ['nullable', 'integer', 'exists:course_classes,id'],
             'file' => [
                 'required',
                 'file',
