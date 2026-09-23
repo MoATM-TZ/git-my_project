@@ -3,10 +3,10 @@
 @section('title', 'Create account')
 
 @section('content')
-    <div class="ll-auth">
-        <div class="ll-card ll-auth-card">
-            <h1 class="ll-auth-title">Join LearnLink</h1>
-            <p class="ll-auth-sub">Create an account to share and discuss learning materials.</p>
+    <div class="ll-auth min-h-screen bg-slate-50/50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div class="ll-card ll-auth-card sm:mx-auto sm:w-full sm:max-w-md bg-white py-8 px-6 shadow-md rounded-2xl border border-slate-100">
+            <h2 class="ll-auth-gradient-title text-2xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Create Your Account</h2>
+            <p class="ll-auth-description text-sm text-slate-500 mt-1">Join the academic community to access notes, slides, and collaborate</p>
 
             <form method="POST" action="{{ route('register.store') }}" class="ll-form">
                 @csrf

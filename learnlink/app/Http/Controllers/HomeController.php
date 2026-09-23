@@ -38,12 +38,6 @@ class HomeController extends Controller
             ->limit(5)
             ->get(['id', 'name', 'reputation_points']);
 
-        $stats = [
-            'resources' => Resource::published()->count(),
-            'users'     => User::count(),
-            'downloads' => (int) Resource::published()->sum('download_count'),
-        ];
-
         $categories = Resource::published()
             ->selectRaw('category, count(*) as total')
             ->groupBy('category')
@@ -55,7 +49,6 @@ class HomeController extends Controller
             'popular'         => $popular,
             'trending'        => $trending,
             'topContributors' => $topContributors,
-            'stats'           => $stats,
             'categories'      => $categories,
         ]);
     }

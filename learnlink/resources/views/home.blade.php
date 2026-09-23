@@ -21,22 +21,6 @@
         </div>
     </section>
 
-    {{-- Stats strip --}}
-    <section class="ll-stats" aria-label="Platform statistics">
-        <div class="ll-stat">
-            <span class="ll-stat-value">{{ number_format($stats['resources']) }}</span>
-            <span class="ll-stat-label">Resources</span>
-        </div>
-        <div class="ll-stat">
-            <span class="ll-stat-value">{{ number_format($stats['users']) }}</span>
-            <span class="ll-stat-label">Members</span>
-        </div>
-        <div class="ll-stat">
-            <span class="ll-stat-value">{{ number_format($stats['downloads']) }}</span>
-            <span class="ll-stat-label">Downloads</span>
-        </div>
-    </section>
-
     {{-- Category chips --}}
     @if ($categories->isNotEmpty())
         <section class="ll-categories" aria-label="Browse by category">
