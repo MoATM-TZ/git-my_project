@@ -30,6 +30,7 @@ class VoteController extends Controller
 
     public function store(Request $request, Resource $resource)
     {
+        $this->authorize('vote', $resource);
         $request->validate([
             'direction' => ['required', 'in:up,down'],
         ]);

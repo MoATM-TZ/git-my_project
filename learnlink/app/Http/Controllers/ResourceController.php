@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreResourceRequest;
 use App\Models\Resource;
+use App\Models\CourseClass;
 use App\Services\ReputationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -27,7 +28,12 @@ class ResourceController extends Controller
     /** Upload form — was the legacy upload.php. */
     public function create(): View
     {
-        $classes = auth()->user()?->enrolledClasses()->get() ?? collect();
+        $user = auth()->user();
+        $classes = match ($user->role) {
+            'admin' => \App\Models\CourseClass::query()->get(),
+            'lecturer' => $user->taughtClasses()->get(),
+            default => $user->enrolledClasses()->get(),
+        };
         return view('resources.create', compact('classes'));
     }
 
@@ -40,8 +46,10 @@ class ResourceController extends Controller
      */
     public function store(StoreResourceRequest $request): RedirectResponse
     {
-        if ($request->validated('course_class_id')) {
-            abort_unless($request->user()->enrolledClasses()->whereKey($request->validated('course_class_id'))->exists() || $request->user()->role === 'lecturer', 403);
+        $this->authorize('create', Resource::class);
+        $courseClassId = $request->validated('course_class_id');
+        if ($courseClassId) {
+            $this->authorize('uploadToClass', [Resource::class, CourseClass::findOrFail($courseClassId)]);
         }
         /** @var \Illuminate\Http\UploadedFile $file */
         $file = $request->file('file');
@@ -53,7 +61,7 @@ class ResourceController extends Controller
                 'title'         => $request->validated('title'),
                 'description'   => $request->validated('description'),
                 'category'      => $request->validated('category'),
-                'course_class_id' => $request->validated('course_class_id'),
+                'course_class_id' => $courseClassId,
                 'file_path'     => $path,
                 'original_name' => $file->getClientOriginalName(),
                 'mime_type'     => $file->getClientMimeType(),
@@ -128,7 +136,7 @@ class ResourceController extends Controller
     /** Owner removes a resource and its stored file. */
     public function destroy(Request $request, Resource $resource): RedirectResponse
     {
-        abort_unless($request->user()->id === $resource->user_id, 403);
+        $this->authorize('delete', $resource);
 
         Storage::disk('public')->delete($resource->file_path);
 

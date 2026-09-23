@@ -22,6 +22,7 @@ class CommentController extends Controller
     /** Persist a new comment (was comment_process.php). */
     public function store(Request $request, Resource $resource)
     {
+        $this->authorize('create', \App\Models\Comment::class);
         if ($resource->status !== 'published') {
             abort(404);
         }
@@ -41,5 +42,12 @@ class CommentController extends Controller
         return redirect()
             ->route('resources.show', $resource)
             ->with('status', 'Comment added. +1 reputation.');
+    }
+
+    public function destroy(Request $request, \App\Models\Comment $comment): RedirectResponse
+    {
+        $this->authorize('delete', $comment);
+        $comment->delete();
+        return redirect()->route('resources.show', $comment->resource)->with('status', 'Comment deleted.');
     }
 }

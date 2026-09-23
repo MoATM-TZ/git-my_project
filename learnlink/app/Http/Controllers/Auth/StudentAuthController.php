@@ -1,8 +1,82 @@
 <?php
+
 namespace App\Http\Controllers\Auth;
-use App\Http\Controllers\Controller; use App\Models\User; use Illuminate\Http\RedirectResponse; use Illuminate\Http\Request; use Illuminate\Support\Facades\Auth; use Illuminate\Support\Facades\Hash; use Illuminate\Validation\Rules\Password; use Illuminate\Validation\ValidationException; use Illuminate\View\View;
-class StudentAuthController extends Controller {
- public function createLogin(): View { return view('student.auth.login'); } public function createRegister(): View { return view('student.auth.register'); }
- public function login(Request $request): RedirectResponse { $data=$request->validate(['email'=>['required','email'],'password'=>['required','string']]); if (Auth::attempt([...$data,'role'=>'student','is_active'=>true], $request->boolean('remember'))) { $request->session()->regenerate(); return redirect()->intended(route('student.dashboard')); } throw ValidationException::withMessages(['email'=>'These credentials do not match an active student account.']); }
- public function register(Request $request): RedirectResponse { $data=$request->validate(['full_name'=>['required','string','min:5','max:255','regex:/^\\S+(?:\\s+\\S+){2,}$/'],'registration_number'=>['required','string','max:80','regex:/^[A-Za-z0-9\\/\\-]+$/','unique:student_profiles,registration_number'],'year_of_study'=>['required','integer','between:1,10'],'phone_number'=>['required','string','regex:/^\\+?[1-9]\\d{7,14}$/'],'department'=>['required','string','max:120'],'program_level'=>['required','in:Certificate,Diploma,Degree,Masters,PhD'],'program_name'=>['required','string','max:160'],'email'=>['required','email','max:255','unique:users,email'],'password'=>['required','confirmed',Password::min(8)]); $user=User::create(['name'=>$data['full_name'],'email'=>$data['email'],'password'=>Hash::make($data['password']),'role'=>'student']); $user->studentProfile()->create(collect($data)->only(['full_name','registration_number','year_of_study','phone_number','department','program_level','program_name'])->all()); Auth::login($user); $request->session()->regenerate(); return redirect()->route('student.dashboard'); }
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
+
+class StudentAuthController extends Controller
+{
+    public function createLogin(): View
+    {
+        return view('student.auth.login');
+    }
+
+    public function createRegister(): View
+    {
+        return view('student.auth.register');
+    }
+
+    public function login(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string'],
+        ]);
+
+        if (Auth::attempt([...$data, 'role' => 'student', 'is_active' => true], $request->boolean('remember'))) {
+            $request->session()->regenerate();
+            return redirect()->intended(route('student.dashboard'));
+        }
+
+        throw ValidationException::withMessages([
+            'email' => 'These credentials do not match an active student account.',
+        ]);
+    }
+
+    public function register(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'full_name' => ['required', 'string', 'min:5', 'max:255', 'regex:/^\S+(?:\s+\S+){2,}$/'],
+            'registration_number' => ['required', 'string', 'max:80', 'regex:/^[A-Za-z0-9\/\-]+$/', 'unique:student_profiles,registration_number'],
+            'year_of_study' => ['required', 'integer', 'between:1,10'],
+            'phone_number' => ['required', 'string', 'regex:/^\+?[1-9]\d{7,14}$/'],
+            'department' => ['required', 'string', 'max:120'],
+            'program_level' => ['required', 'in:Certificate,Diploma,Degree,Masters,PhD'],
+            'program_name' => ['required', 'string', 'max:160'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'confirmed', Password::min(8)],
+        ]);
+
+        $user = User::create([
+            'name' => $data['full_name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'role' => 'student',
+        ]);
+
+        $user->studentProfile()->create(
+            collect($data)->only([
+                'full_name',
+                'registration_number',
+                'year_of_study',
+                'phone_number',
+                'department',
+                'program_level',
+                'program_name',
+            ])->all()
+        );
+
+        Auth::login($user);
+        $request->session()->regenerate();
+
+        return redirect()->route('student.dashboard');
+    }
 }

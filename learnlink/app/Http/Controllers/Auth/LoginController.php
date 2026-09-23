@@ -13,65 +13,55 @@ use Illuminate\View\View;
 
 class LoginController extends Controller
 {
-    /** Show the login form (legacy login.php). */
     public function create(): View
     {
         return view('auth.login');
     }
 
-    /** Authenticate a session (legacy login_process.php). */
     public function store(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
-            'email'    => ['required', 'string', 'email'],
+            'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
         ]);
 
-        $this->ensureIsNotRateLimited($request);
-
-        if (Auth::attempt([...$credentials, 'is_active' => true], $request->boolean('remember'))) {
-            $request->session()->regenerate();
-            RateLimiter::clear($this->throttleKey($request));
-
-            $destination = $request->user()->role === 'lecturer' ? route('lecturer.dashboard') : ($request->user()->role === 'student' ? route('student.dashboard') : route('home'));
-            return redirect()->intended($destination);
+        $key = Str::transliterate(Str::lower($request->string('email')).'|'.$request->ip());
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            $seconds = RateLimiter::availableIn($key);
+            throw ValidationException::withMessages([
+                'email' => __('auth.throttle', ['seconds' => $seconds, 'minutes' => ceil($seconds / 60)]),
+            ])->redirectTo(route('login'));
         }
 
-        RateLimiter::hit($this->throttleKey($request), 60);
+        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
+            RateLimiter::hit($key, 60);
+            throw ValidationException::withMessages(['email' => __('auth.failed')])->redirectTo(route('login'));
+        }
 
-        throw ValidationException::withMessages([
-            'email' => __('auth.failed'),
-        ])->redirectTo(route('login'));
+        $user = $request->user();
+        if (! $user->is_active || ! in_array($user->role, ['student', 'lecturer', 'admin'], true)) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            RateLimiter::hit($key, 60);
+            throw ValidationException::withMessages(['email' => __('auth.failed')])->redirectTo(route('login'));
+        }
+
+        $request->session()->regenerate();
+        RateLimiter::clear($key);
+
+        return redirect()->intended(match ($user->role) {
+            'student' => route('student.dashboard'),
+            'lecturer' => route('lecturer.dashboard'),
+            'admin' => route('admin.dashboard'),
+        });
     }
 
-    /** Destroy the authenticated session (legacy logout.php). */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
         return redirect()->route('home');
-    }
-
-    private function ensureIsNotRateLimited(Request $request): void
-    {
-        if (!RateLimiter::tooManyAttempts($this->throttleKey($request), 5)) {
-            return;
-        }
-
-        $seconds = RateLimiter::availableIn($this->throttleKey($request));
-
-        throw ValidationException::withMessages([
-            'email' => __('auth.throttle', ['seconds' => $seconds, 'minutes' => ceil($seconds / 60)]),
-        ])->redirectTo(route('login'));
-    }
-
-    private function throttleKey(Request $request): string
-    {
-        return Str::transliterate(
-            Str::lower($request->string('email')).'|'.$request->ip()
-        );
     }
 }

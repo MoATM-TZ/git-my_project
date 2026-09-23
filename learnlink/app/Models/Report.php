@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Report extends Model
 {
@@ -26,6 +26,9 @@ class Report extends Model
     protected $fillable = [
         'user_id',
         'resource_id',
+        'reportable_type',
+        'reportable_id',
+        'actioned_by',
         'reason',
         'details',
         'status',
@@ -36,8 +39,13 @@ class Report extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function resource(): BelongsTo
+    public function reportable(): MorphTo
     {
-        return $this->belongsTo(Resource::class);
+        return $this->morphTo();
+    }
+
+    public function actionedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'actioned_by');
     }
 }

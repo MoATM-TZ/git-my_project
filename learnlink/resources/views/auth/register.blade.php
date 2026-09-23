@@ -11,6 +11,14 @@
             <form method="POST" action="{{ route('register.store') }}" class="ll-form">
                 @csrf
                 <div class="ll-field">
+                    <label class="ll-label" for="role">I am registering as</label>
+                    <select class="ll-input" id="role" name="role" required>
+                        <option value="student" @selected(old('role') === 'student')>Student</option>
+                        <option value="lecturer" @selected(old('role') === 'lecturer')>Lecturer</option>
+                    </select>
+                    @error('role') <p class="ll-field-error">{{ $message }}</p> @enderror
+                </div>
+                <div class="ll-field">
                     <label class="ll-label" for="name">Name</label>
                     <input class="ll-input" id="name" name="name" value="{{ old('name') }}" required autofocus autocomplete="name">
                     @error('name') <p class="ll-field-error">{{ $message }}</p> @enderror

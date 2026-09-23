@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
 
 class Resource extends Model
@@ -81,9 +82,9 @@ class Resource extends Model
         return $this->hasMany(Vote::class);
     }
 
-    public function reports(): HasMany
+    public function reports(): MorphMany
     {
-        return $this->hasMany(Report::class);
+        return $this->morphMany(Report::class, 'reportable');
     }
 
     // -------------------------------------------------------------------------
