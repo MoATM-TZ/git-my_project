@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\CheckRole::class,
             'active' => \App\Http\Middleware\EnsureAccountIsActive::class,
+            'approved' => \App\Http\Middleware\EnsureAccountIsApproved::class,
             'profile.complete' => \App\Http\Middleware\EnsureProfileIsComplete::class,
         ]);
     })

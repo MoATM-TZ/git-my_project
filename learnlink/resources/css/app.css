@@ -16,3 +16,11 @@
 .ll-auth-alt { margin:18px 0 0; text-align:center; }
 .ll-dashboard-contributions { margin-top:14px; }
 @media (max-width:640px) { .ll-auth { padding:28px 12px; border-radius:16px; }.ll-auth-card { padding:26px 20px; } }
+.ll-approval-icon { display:grid; place-items:center; width:44px; height:44px; margin-bottom:18px; border-radius:50%; color:#4338ca; background:#e0e7ff; font-size:1.35rem; font-weight:800; }
+.ll-approval-list { padding:0 20px; }
+.ll-approval-row { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:20px 0; border-bottom:1px solid var(--line); }
+.ll-approval-row h2 { margin:0 0 4px; font-size:1.05rem; }
+.ll-approval-row p { margin:3px 0; }
+.ll-approval-actions { display:flex; gap:8px; }
+.ll-approval-actions form { margin:0; }
+@media (max-width:640px) { .ll-approval-row { align-items:flex-start; flex-direction:column; }.ll-approval-actions { width:100%; }.ll-approval-actions form { flex:1; }.ll-approval-actions .ll-btn { width:100%; } }

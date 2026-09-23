@@ -41,7 +41,12 @@ Route::get('/lecturer/register', fn () => redirect()->route('register'))->name('
 
 Route::middleware(['auth', 'active'])->group(function (): void {
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
+    Route::get('/approval-notice', fn () => view('auth.approval-notice'))
+        ->middleware('approved')
+        ->name('approval.notice');
+});
 
+Route::middleware(['auth', 'active', 'approved'])->group(function (): void {
     // Profile completion must be reachable before profile.complete is enforced.
     Route::prefix('onboarding')->name('onboarding.')->group(function (): void {
         Route::get('/student', [OnboardingController::class, 'student'])->name('student.edit');
@@ -49,9 +54,7 @@ Route::middleware(['auth', 'active'])->group(function (): void {
         Route::get('/lecturer', [OnboardingController::class, 'lecturer'])->name('lecturer.edit');
         Route::post('/lecturer', [OnboardingController::class, 'saveLecturer'])->name('lecturer.save');
     });
-});
-
-Route::middleware(['auth', 'active', 'profile.complete'])->group(function (): void {
+    Route::middleware('profile.complete')->group(function (): void {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
@@ -79,6 +82,9 @@ Route::middleware(['auth', 'active', 'profile.complete'])->group(function (): vo
 
     Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function (): void {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/approvals', [AdminController::class, 'approvals'])->name('approvals.index');
+        Route::post('/approvals/{user}/approve', [AdminController::class, 'approve'])->name('approvals.approve');
+        Route::post('/approvals/{user}/reject', [AdminController::class, 'reject'])->name('approvals.reject');
         Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
         Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('users.show');
         Route::patch('/users/{user}', [AdminUserController::class, 'update'])->name('users.update');
@@ -93,6 +99,7 @@ Route::middleware(['auth', 'active', 'profile.complete'])->group(function (): vo
         Route::patch('/reports/{report}/keep', [AdminResourceController::class, 'keep'])->name('reports.keep');
         Route::patch('/reports/{report}/remove', [AdminResourceController::class, 'remove'])->name('reports.remove');
         Route::patch('/reports/{report}/warn', [AdminResourceController::class, 'warn'])->name('reports.warn');
+    });
     });
 });
 
