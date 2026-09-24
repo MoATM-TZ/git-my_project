@@ -88,6 +88,8 @@ Route::middleware(['auth', 'active', 'approved'])->group(function (): void {
         Route::post('/approvals/{user}/approve', [AdminController::class, 'approve'])->name('approvals.approve');
         Route::post('/approvals/{user}/reject', [AdminController::class, 'reject'])->name('approvals.reject');
         Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+        Route::patch('/users/{user}/role', [AdminUserController::class, 'updateRole'])->name('users.role.update');
+        Route::patch('/users/{user}/status', [AdminUserController::class, 'toggleStatus'])->name('users.status.toggle');
         Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('users.show');
         Route::patch('/users/{user}', [AdminUserController::class, 'update'])->name('users.update');
         Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
