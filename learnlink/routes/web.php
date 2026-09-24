@@ -57,6 +57,8 @@ Route::middleware(['auth', 'active', 'approved'])->group(function (): void {
     Route::middleware('profile.complete')->group(function (): void {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar.update');
+    Route::delete('/profile/avatar', [ProfileController::class, 'deleteAvatar'])->name('profile.avatar.delete');
 
     Route::get('/resources/create', [ResourceController::class, 'create'])->name('resources.create');
     Route::post('/resources', [ResourceController::class, 'store'])->name('resources.store');

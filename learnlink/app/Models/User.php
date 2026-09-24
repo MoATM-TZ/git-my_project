@@ -11,13 +11,23 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
-#[Fillable(['name', 'email', 'password', 'role', 'is_active', 'approval_status', 'approved_by', 'approved_at'])]
+#[Fillable(['name', 'email', 'password', 'role', 'is_active', 'approval_status', 'approved_by', 'approved_at', 'avatar_path'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
+
+    public function getAvatarUrlAttribute(): string
+    {
+        if ($this->avatar_path && Storage::disk('public')->exists($this->avatar_path)) {
+            return Storage::disk('public')->url($this->avatar_path);
+        }
+
+        return 'https://ui-avatars.com/api/?name=' . urlencode($this->name);
+    }
 
     /**
      * Get the attributes that should be cast.

@@ -8,7 +8,7 @@
             <div class="ll-resource-heading">
                 <span class="ll-badge ll-badge-{{ $resource->category }}">{{ \App\Models\Resource::CATEGORIES[$resource->category] ?? $resource->category }}</span>
                 <h1>{{ $resource->title }}</h1>
-                <p class="ll-resource-by">Shared by <strong>{{ $resource->user->name }}</strong> · {{ $resource->created_at->diffForHumans() }}</p>
+                <p class="ll-resource-by"><img class="ll-avatar ll-avatar-image ll-avatar-small" src="{{ $resource->user->avatar_url }}" alt=""> Shared by <strong>{{ $resource->user->name }}</strong> · {{ $resource->created_at->diffForHumans() }}</p>
             </div>
             <div class="ll-resource-actions">
                 <a class="ll-btn ll-btn-primary" href="{{ route('resources.download', $resource) }}"><x-icon name="download" :size="16" /> Download</a>
@@ -54,7 +54,7 @@
             @auth
                 <form method="POST" action="{{ route('resources.comments.store', $resource) }}" class="ll-comment-form">@csrf<textarea class="ll-input" name="body" rows="3" required minlength="2" maxlength="2000" placeholder="Add a helpful comment…">{{ old('body') }}</textarea>@error('body')<p class="ll-field-error">{{ $message }}</p>@enderror<button class="ll-btn ll-btn-primary" type="submit">Post comment</button></form>
             @else <p><a class="ll-link" href="{{ route('login') }}">Log in</a> to join the discussion.</p> @endauth
-            <div class="ll-comments">@forelse($comments as $comment)<article class="ll-comment"><span class="ll-avatar">{{ strtoupper(substr($comment->user->name, 0, 1)) }}</span><div><strong>{{ $comment->user->name }}</strong><time datetime="{{ $comment->created_at->toDateString() }}">{{ $comment->created_at->diffForHumans() }}</time><p>{{ $comment->body }}</p></div></article>@empty<p class="ll-muted">No comments yet. Be the first to start a discussion.</p>@endforelse</div>
+            <div class="ll-comments">@forelse($comments as $comment)<article class="ll-comment"><img class="ll-avatar ll-avatar-image" src="{{ $comment->user->avatar_url }}" alt=""><div><strong>{{ $comment->user->name }}</strong><time datetime="{{ $comment->created_at->toDateString() }}">{{ $comment->created_at->diffForHumans() }}</time><p>{{ $comment->body }}</p></div></article>@empty<p class="ll-muted">No comments yet. Be the first to start a discussion.</p>@endforelse</div>
         </section>
 
         @auth

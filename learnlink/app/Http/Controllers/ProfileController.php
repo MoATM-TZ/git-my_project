@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
@@ -51,5 +52,36 @@ class ProfileController extends Controller
         $user->save();
 
         return back()->with('status', 'Profile updated successfully.');
+    }
+
+    public function updateAvatar(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'avatar' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+        ]);
+
+        $user = $request->user();
+
+        if ($user->avatar_path) {
+            Storage::disk('public')->delete($user->avatar_path);
+        }
+
+        $user->avatar_path = $validated['avatar']->store('avatars', 'public');
+        $user->save();
+
+        return back()->with('status', 'Profile picture updated.');
+    }
+
+    public function deleteAvatar(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+
+        if ($user->avatar_path) {
+            Storage::disk('public')->delete($user->avatar_path);
+            $user->avatar_path = null;
+            $user->save();
+        }
+
+        return back()->with('status', 'Profile picture removed.');
     }
 }

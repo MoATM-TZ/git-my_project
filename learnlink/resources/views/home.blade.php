@@ -89,7 +89,7 @@
                 @foreach ($topContributors as $index => $contributor)
                     <li class="ll-leaderboard-row">
                         <span class="ll-leaderboard-rank">{{ $index + 1 }}</span>
-                        <span class="ll-avatar">{{ strtoupper(substr($contributor->name, 0, 1)) }}</span>
+                        <img class="ll-avatar ll-avatar-image" src="{{ $contributor->avatar_url }}" alt="">
                         <span class="ll-leaderboard-name">{{ $contributor->name }}</span>
                         <span class="ll-leaderboard-badge">
                             <x-icon name="star" :size="14" /> {{ $contributor->reputation_points }}

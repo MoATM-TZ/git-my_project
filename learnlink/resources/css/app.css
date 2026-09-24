@@ -4,7 +4,7 @@
 
 :root { --ink:#172033; --muted:#667085; --line:#e4e7ec; --surface:#fff; --canvas:#f7f8fc; --brand:#4f46e5; --brand-dark:#3730a3; --danger:#b42318; --radius:14px; font-family:Inter,ui-sans-serif,system-ui,sans-serif; color:var(--ink); background:var(--canvas); }
 * { box-sizing:border-box; } body { margin:0; min-width:320px; background:var(--canvas); } a { color:inherit; } button,input,select,textarea { font:inherit; } button { cursor:pointer; }
-.ll-nav-count { padding:3px 7px; background:#eef2ff; color:var(--brand-dark); font-weight:700; }
+.ll-nav-count { padding:3px 7px; background:#eef2ff; color:var(--brand-dark); font-weight:700; }.ll-avatar-image { object-fit:cover; }.ll-avatar-large.ll-avatar-image { display:inline-block; }.ll-avatar-small { width:24px; height:24px; vertical-align:middle; margin-right:4px; }.ll-avatar-tiny { width:20px; height:20px; }.ll-avatar-form,.ll-avatar-remove-form { display:grid; gap:10px; margin:14px 0; }.ll-card-author { display:inline-flex; align-items:center; gap:5px; }
 @media (max-width:760px) { .ll-header-inner { flex-wrap:wrap; gap:10px; padding:10px 0; }.ll-search { order:3; width:100%; }.ll-nav { display:none; order:4; width:100%; }.ll-nav.is-open { display:grid; }.ll-menu-btn { display:block; }.ll-user-name { display:none; }.ll-grid { grid-template-columns:1fr; }.ll-filter-form { grid-template-columns:1fr; }.ll-resource-stats { grid-template-columns:repeat(2,1fr); }.ll-profile-grid { grid-template-columns:1fr; }.ll-footer-inner { display:block; padding:12px 0; }.ll-footer-copy { margin:8px 0; }.ll-hero { padding-top:18px; } }
 
 /* Auth pages */

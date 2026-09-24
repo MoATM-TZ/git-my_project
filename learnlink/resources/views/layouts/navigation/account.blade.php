@@ -1,6 +1,6 @@
 <div class="ll-account">
     <button type="button" class="ll-user-btn" data-dropdown-trigger aria-haspopup="true" aria-expanded="false">
-        <span class="ll-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
+        <img class="ll-avatar ll-avatar-image" src="{{ auth()->user()->avatar_url }}" alt="">
         <span class="ll-user-name">{{ auth()->user()->name }}</span>
         <x-icon name="arrow-down" :size="14" />
     </button>

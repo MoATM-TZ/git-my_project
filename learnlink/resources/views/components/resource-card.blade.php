@@ -17,7 +17,7 @@
     @endif
 
     <div class="ll-card-meta">
-        <span class="ll-card-author"><x-icon name="user" :size="14" /> {{ $resource->user->name ?? 'Anonymous' }}</span>
+        <span class="ll-card-author">@if($resource->user)<img class="ll-avatar ll-avatar-image ll-avatar-tiny" src="{{ $resource->user->avatar_url }}" alt="">{{ $resource->user->name }}@else<x-icon name="user" :size="14" /> Anonymous@endif</span>
         <span class="ll-card-count"><x-icon name="download" :size="14" /> {{ $resource->download_count }}</span>
     </div>
 </a>
