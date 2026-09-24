@@ -24,3 +24,22 @@
 .ll-approval-actions { display:flex; gap:8px; }
 .ll-approval-actions form { margin:0; }
 @media (max-width:640px) { .ll-approval-row { align-items:flex-start; flex-direction:column; }.ll-approval-actions { width:100%; }.ll-approval-actions form { flex:1; }.ll-approval-actions .ll-btn { width:100%; } }
+
+.ll-admin-layout { display:grid; grid-template-columns:minmax(190px,240px) minmax(0,1fr); align-items:stretch; gap:24px; }
+.ll-admin-sidebar { align-self:stretch; min-width:0; padding:22px 14px; }
+.ll-admin-sidebar h2 { margin:0 10px 14px; font-size:1.05rem; }
+.ll-admin-sidebar nav { display:grid; gap:4px; }
+.ll-admin-sidebar .ll-nav-link { min-width:0; line-height:1.35; }
+.ll-admin-content { min-width:0; }
+.ll-admin-alerts { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin:0 0 20px; }
+.ll-admin-alert { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 20px; border:1px solid #fecdca; border-left:4px solid #f04438; border-radius:12px; background:#fffbfa; }
+.ll-admin-alert > div { display:grid; gap:4px; }.ll-admin-alert-label { color:var(--muted); font-size:.86rem; }.ll-admin-alert strong { color:var(--ink); font-size:1.6rem; line-height:1.1; }
+.ll-admin-kpis { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-bottom:20px; }
+.ll-admin-kpi { min-width:0; padding:20px; border-color:#e4e7ec; }
+.ll-admin-kpi-label { display:block; margin-bottom:20px; color:var(--muted); font-size:.88rem; font-weight:650; }
+.ll-admin-kpi-values { display:flex; flex-wrap:wrap; gap:22px; }.ll-admin-kpi-values > div { display:grid; gap:4px; min-width:100px; }.ll-admin-kpi-values strong { font-size:1.55rem; line-height:1.1; }.ll-admin-kpi-values span { color:var(--muted); font-size:.82rem; }
+.ll-admin-status { display:flex; align-items:center; gap:7px; color:#027a48; font-size:1.05rem!important; }.ll-admin-status span { width:9px; height:9px; border-radius:50%; background:#12b76a; }
+.ll-admin-tools { padding:20px; }.ll-admin-tools h2 { margin-top:0; font-size:1.1rem; }.ll-admin-tools h3 { margin-bottom:4px; font-size:.98rem; }
+.ll-role-badge { margin:12px 0; padding:6px 11px; color:#3730a3; background:#eef2ff; font-weight:700; }
+@media (max-width:900px) { .ll-admin-layout { grid-template-columns:minmax(170px,210px) minmax(0,1fr); gap:16px; }.ll-admin-alert { align-items:flex-start; flex-direction:column; } }
+@media (max-width:640px) { .ll-admin-layout,.ll-admin-alerts,.ll-admin-kpis { grid-template-columns:1fr; }.ll-admin-sidebar { padding:16px; }.ll-admin-sidebar nav { grid-template-columns:repeat(2,minmax(0,1fr)); }.ll-admin-sidebar .ll-nav-link { padding:9px 8px; }.ll-admin-alert { align-items:center; flex-direction:row; }.ll-admin-alert .ll-btn { padding:8px 10px; font-size:.82rem; } }
