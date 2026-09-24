@@ -2,76 +2,76 @@
 @section('title', 'Admin dashboard')
 @section('content')
 @php
-    $pendingApprovalsCount = $pendingApprovalsCount ?? ($stats['approvals'] ?? $pendingApprovals ?? 0);
-    $openReportsCount = $openReportsCount ?? ($stats['reports'] ?? $openReports ?? 0);
-    $studentsCount = $stats['students'] ?? 0;
-    $lecturersCount = $stats['lecturers'] ?? 0;
-    $uploadsCount = $stats['uploads'] ?? 0;
-    $downloadsCount = $stats['downloads'] ?? 0;
-    $activeClassesCount = $stats['classes'] ?? 0;
+    $pendingApprovals = $stats['pending_approvals'] ?? $stats['approvals'] ?? 0;
+    $pendingReports = $stats['pending_reports'] ?? $stats['reports'] ?? 0;
+    $totalUploads = $stats['total_uploads'] ?? $stats['uploads'] ?? 0;
+    $totalDownloads = $stats['total_downloads'] ?? $stats['downloads'] ?? 0;
+    $activeClasses = $stats['active_classes'] ?? $stats['classes'] ?? 0;
 @endphp
 
-    <header class="mb-8">
-        <h1 class="text-2xl font-bold text-slate-900">System Overview</h1>
-        <p class="mt-1 text-sm text-slate-500">Monitor platform activity and resolve pending operational tasks.</p>
-    </header>
+<div style="max-width: 1100px; margin: 0 auto; padding: 24px; font-family: system-ui, -apple-system, sans-serif;">
+    <div style="margin-bottom: 24px;">
+        <h1 style="font-size: 24px; font-weight: 700; color: #0f172a; margin: 0 0 4px 0;">System Overview</h1>
+        <p style="font-size: 14px; color: #64748b; margin: 0;">Monitor platform activity and resolve pending operational tasks.</p>
+    </div>
 
-    @if($pendingApprovalsCount > 0)
-        <div class="mb-4 flex flex-col gap-4 rounded-xl border border-amber-200/60 bg-amber-50 p-4 sm:flex-row sm:items-center sm:justify-between">
-            <div class="flex items-center space-x-3">
-                <span class="font-semibold text-amber-900">Account Approvals Pending</span>
-                <span class="rounded-full bg-amber-200 px-2.5 py-0.5 text-xs font-bold text-amber-800">{{ number_format($pendingApprovalsCount) }}</span>
+    @if($pendingApprovals > 0)
+        <div style="background-color: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 16px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between;">
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px;">
+                <span style="font-weight: 600; color: #92400e;">Account Approvals Pending</span>
+                <span style="background-color: #fef3c7; color: #92400e; padding: 2px 10px; border-radius: 9999px; font-weight: 700; font-size: 12px;">{{ number_format($pendingApprovals) }}</span>
             </div>
-            <a href="{{ route('admin.approvals.index') }}" class="rounded-lg bg-amber-600 px-4 py-2 text-center text-sm font-medium text-white transition-all hover:bg-amber-700">Review Requests</a>
+            <a href="{{ route('admin.approvals.index') }}" style="background-color: #d97706; color: white; padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 500; text-decoration: none;">Review Requests</a>
         </div>
     @endif
 
-    @if($openReportsCount > 0)
-        <div class="mb-6 flex flex-col gap-4 rounded-xl border border-rose-200/60 bg-rose-50 p-4 sm:flex-row sm:items-center sm:justify-between">
-            <div class="flex items-center space-x-3">
-                <span class="font-semibold text-rose-900">Open Content Reports</span>
-                <span class="rounded-full bg-rose-200 px-2.5 py-0.5 text-xs font-bold text-rose-800">{{ number_format($openReportsCount) }}</span>
+    @if($pendingReports > 0)
+        <div style="background-color: #fff1f2; border: 1px solid #fecdd3; border-radius: 12px; padding: 16px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between;">
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px;">
+                <span style="font-weight: 600; color: #9f1239;">Open Content Reports</span>
+                <span style="background-color: #ffe4e6; color: #9f1239; padding: 2px 10px; border-radius: 9999px; font-weight: 700; font-size: 12px;">{{ number_format($pendingReports) }}</span>
             </div>
-            <a href="{{ route('admin.reports.index') }}" class="rounded-lg bg-rose-600 px-4 py-2 text-center text-sm font-medium text-white transition-all hover:bg-rose-700">Moderate Reports</a>
+            <a href="{{ route('admin.reports.index') }}" style="background-color: #e11d48; color: white; padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 500; text-decoration: none;">Moderate Reports</a>
         </div>
     @endif
 
-    <section class="mb-8 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4" aria-label="Platform metrics">
-        <article class="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
-            <p class="text-sm font-medium text-slate-500">Users</p>
-            <p class="mt-4 text-3xl font-bold tracking-tight text-slate-900">{{ number_format($studentsCount) }}</p>
-            <p class="mt-1 text-sm text-slate-500">Students</p>
-            <p class="mt-4 border-t border-slate-100 pt-3 text-sm text-slate-600"><strong class="font-semibold text-slate-900">{{ number_format($lecturersCount) }}</strong> Lecturers</p>
-        </article>
-
-        <article class="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
-            <p class="text-sm font-medium text-slate-500">Uploads</p>
-            <p class="mt-4 text-3xl font-bold tracking-tight text-slate-900">{{ number_format($uploadsCount) }}</p>
-            <p class="mt-1 text-sm text-slate-500">Total uploads</p>
-            <p class="mt-4 border-t border-slate-100 pt-3 text-sm text-slate-600"><strong class="font-semibold text-slate-900">{{ number_format($downloadsCount) }}</strong> Downloads</p>
-        </article>
-
-        <article class="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
-            <p class="text-sm font-medium text-slate-500">Classes</p>
-            <p class="mt-4 text-3xl font-bold tracking-tight text-slate-900">{{ number_format($activeClassesCount) }}</p>
-            <p class="mt-1 text-sm text-slate-500">Active course classes</p>
-        </article>
-
-        <article class="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
-            <p class="text-sm font-medium text-slate-500">Approvals / Queue</p>
-            <p class="mt-4 text-3xl font-bold tracking-tight text-slate-900">{{ number_format($pendingApprovalsCount) }}</p>
-            <p class="mt-1 text-sm text-slate-500">Total pending approvals</p>
-        </article>
-    </section>
-
-    <section class="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm" aria-labelledby="admin-tools-title">
-        <h2 id="admin-tools-title" class="text-lg font-semibold text-slate-900">Quick Tools</h2>
-        <div class="mt-5 flex flex-wrap gap-3">
-            <a href="{{ route('admin.users.index') }}" class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">User Management</a>
-            <a href="{{ route('admin.academic.index') }}" class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">Academic Setup</a>
-            <a href="{{ route('admin.reports.index') }}" class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">Content Moderation</a>
-            <a href="#system-logs" class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">System Logs</a>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 32px;">
+        <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            <div style="font-size: 13px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Users</div>
+            <div style="font-size: 28px; font-weight: 800; color: #0f172a; margin: 8px 0 4px 0;">{{ number_format($stats['students'] ?? 0) }}</div>
+            <div style="font-size: 13px; color: #64748b;">Students</div>
+            <div style="font-size: 13px; color: #64748b; margin-top: 12px; padding-top: 12px; border-top: 1px solid #f1f5f9;"><strong style="color: #0f172a;">{{ number_format($stats['lecturers'] ?? 0) }}</strong> Lecturers</div>
         </div>
-        <p id="system-logs" class="mt-5 border-t border-slate-100 pt-4 text-sm text-slate-500">Application logs are available to deployment administrators through the server log channel.</p>
-    </section>
+
+        <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            <div style="font-size: 13px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Uploads</div>
+            <div style="font-size: 28px; font-weight: 800; color: #0f172a; margin: 8px 0 4px 0;">{{ number_format($totalUploads) }}</div>
+            <div style="font-size: 13px; color: #64748b;">Total uploads</div>
+            <div style="font-size: 13px; color: #64748b; margin-top: 12px; padding-top: 12px; border-top: 1px solid #f1f5f9;"><strong style="color: #0f172a;">{{ number_format($totalDownloads) }}</strong> Downloads</div>
+        </div>
+
+        <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            <div style="font-size: 13px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Classes</div>
+            <div style="font-size: 28px; font-weight: 800; color: #0f172a; margin: 8px 0 4px 0;">{{ number_format($activeClasses) }}</div>
+            <div style="font-size: 13px; color: #64748b;">Active course classes</div>
+        </div>
+
+        <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            <div style="font-size: 13px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Pending Queue</div>
+            <div style="font-size: 28px; font-weight: 800; color: #4f46e5; margin: 8px 0 4px 0;">{{ number_format($pendingApprovals) }}</div>
+            <div style="font-size: 13px; color: #64748b;">Approvals waiting</div>
+        </div>
+    </div>
+
+    <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <h2 style="font-size: 16px; font-weight: 700; color: #0f172a; margin: 0 0 16px 0;">Quick Administration Tools</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+            <a href="{{ route('admin.users.index') }}" style="background-color: #f8fafc; border: 1px solid #cbd5e1; color: #334155; padding: 10px 18px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none;">User Management</a>
+            <a href="{{ route('admin.academic.index') }}" style="background-color: #f8fafc; border: 1px solid #cbd5e1; color: #334155; padding: 10px 18px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none;">Academic Setup</a>
+            <a href="{{ route('admin.reports.index') }}" style="background-color: #f8fafc; border: 1px solid #cbd5e1; color: #334155; padding: 10px 18px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none;">Content Moderation</a>
+            <a href="#system-logs" style="background-color: #f8fafc; border: 1px solid #cbd5e1; color: #334155; padding: 10px 18px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none;">System Logs</a>
+        </div>
+        <p id="system-logs" style="font-size: 13px; color: #64748b; margin: 20px 0 0; padding-top: 16px; border-top: 1px solid #f1f5f9;">Application logs are available to deployment administrators through the server log channel.</p>
+    </div>
+</div>
 @endsection
