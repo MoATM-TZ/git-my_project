@@ -16,7 +16,7 @@
     </header>
 
     <main class="ll-main">
-        <div class="ll-container">
+        <div class="{{ request()->routeIs('admin.dashboard') ? 'mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8' : 'll-container' }}">
             @include('partials.flash')
 
             @yield('content')
