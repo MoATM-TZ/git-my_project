@@ -16,7 +16,7 @@
     </header>
 
     <main class="ll-main">
-        <div class="{{ request()->routeIs('admin.dashboard', 'admin.users.index') ? 'mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8' : 'll-container' }}">
+        <div class="{{ request()->routeIs('admin.dashboard', 'admin.users.index', 'admin.academic.index') ? 'mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8' : 'll-container' }}">
             @include('partials.flash')
 
             @yield('content')
