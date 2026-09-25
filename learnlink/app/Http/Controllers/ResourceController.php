@@ -31,7 +31,7 @@ class ResourceController extends Controller
         $user = auth()->user();
         $classes = match ($user->role) {
             'admin' => \App\Models\CourseClass::query()->get(),
-            'lecturer' => $user->taughtClasses()->get(),
+            'lecturer' => $user->taughtClasses()->where('is_archived', false)->get(),
             default => $user->enrolledClasses()->get(),
         };
         return view('resources.create', compact('classes'));

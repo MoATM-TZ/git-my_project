@@ -21,6 +21,9 @@
         </div>
     </section>
 
+    @auth
+        @if(auth()->user()->hasRole('student'))
+
     {{-- Category chips --}}
     @if ($categories->isNotEmpty())
         <section class="ll-categories" aria-label="Browse by category">
@@ -99,4 +102,25 @@
             </ol>
         </section>
     @endif
+        @elseif(auth()->user()->hasRole('lecturer'))
+            <section class="ll-card ll-rail" role="region" aria-labelledby="lecturer-welcome">
+                <h2 id="lecturer-welcome">Welcome Back, Lecturer!</h2>
+                <p>Manage your assigned classes and keep your students up to date.</p>
+                <a href="{{ route('lecturer.dashboard') }}" class="ll-btn ll-btn-primary">Manage your classes</a>
+            </section>
+        @elseif(auth()->user()->hasRole('admin'))
+            <section class="ll-card ll-rail" role="region" aria-labelledby="admin-welcome">
+                <h2 id="admin-welcome">Welcome, Administrator</h2>
+                <p>Manage LearnLink users, resources, and academic setup.</p>
+                <a href="{{ route('admin.dashboard') }}" class="ll-btn ll-btn-primary">Open admin dashboard</a>
+            </section>
+        @endif
+    @else
+        <section class="ll-card ll-rail" aria-label="Join LearnLink">
+            <h2>Join the LearnLink community</h2>
+            <p>Log in or create an account to discover and share learning resources.</p>
+            <a href="{{ route('login') }}" class="ll-btn ll-btn-primary">Log in</a>
+            <a href="{{ route('register') }}" class="ll-btn ll-btn-outline">Create an account</a>
+        </section>
+    @endauth
 @endsection

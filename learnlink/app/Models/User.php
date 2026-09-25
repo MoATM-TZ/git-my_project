@@ -29,6 +29,11 @@ class User extends Authenticatable
         return 'https://ui-avatars.com/api/?name=' . urlencode($this->name);
     }
 
+    public function hasRole(string $role): bool
+    {
+        return $this->role === $role;
+    }
+
     /**
      * Get the attributes that should be cast.
      *

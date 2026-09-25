@@ -12,9 +12,9 @@
         @csrf
         @if(isset($classes) && $classes->isNotEmpty())
             <div class="ll-field">
-                <label class="ll-label" for="course_class_id">Class <span class="ll-muted">(optional)</span></label>
-                <select class="ll-input" id="course_class_id" name="course_class_id">
-                    <option value="">Share globally</option>
+                <label class="ll-label" for="course_class_id">Class @unless(auth()->user()->role === 'lecturer')<span class="ll-muted">(optional)</span>@endunless</label>
+                <select class="ll-input" id="course_class_id" name="course_class_id" @required(auth()->user()->role === 'lecturer')>
+                    @unless(auth()->user()->role === 'lecturer')<option value="">Share globally</option>@endunless
                     @foreach($classes as $class)<option value="{{ $class->id }}" @selected(old('course_class_id') == $class->id)>{{ $class->course_code }} — {{ $class->course_title }}</option>@endforeach
                 </select>
             </div>

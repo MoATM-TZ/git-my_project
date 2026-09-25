@@ -32,7 +32,7 @@ class StoreResourceRequest extends FormRequest
             'title' => ['required', 'string', 'min:3', 'max:255'],
             'description' => ['nullable', 'string', 'max:5000'],
             'category' => ['required', 'string', 'in:'.implode(',', array_keys(Resource::CATEGORIES))],
-            'course_class_id' => ['nullable', 'integer', 'exists:course_classes,id'],
+            'course_class_id' => [$this->user()?->role === 'lecturer' ? 'required' : 'nullable', 'integer', 'exists:course_classes,id'],
             'file' => [
                 'required',
                 'file',

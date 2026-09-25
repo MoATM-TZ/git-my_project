@@ -31,7 +31,7 @@ class ResourcePolicy
             return true;
         }
         if ($user->role === 'lecturer') {
-            return (int) $courseClass->lecturer_id === (int) $user->id;
+            return (int) $courseClass->lecturer_id === (int) $user->id && ! $courseClass->is_archived;
         }
         return $user->role === 'student'
             && $user->enrolledClasses()->whereKey($courseClass->getKey())->exists();
