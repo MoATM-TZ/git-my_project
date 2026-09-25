@@ -5,7 +5,6 @@
 <nav class="ll-nav" id="primary-nav" aria-label="Primary">
     <a href="{{ route('home') }}" @class(['ll-nav-link', 'is-active' => request()->routeIs('home')])><x-icon name="book" :size="16" /> Dashboard</a>
     <a href="{{ route('lecturer.dashboard') }}" @class(['ll-nav-link', 'is-active' => request()->routeIs('lecturer.*')])>My Course Classes</a>
-    <a href="{{ route('resources.create') }}" class="ll-btn ll-btn-primary ll-nav-upload"><x-icon name="upload" :size="16" /> Upload Resource</a>
 </nav>
 @include('layouts.navigation.search')
 @include('layouts.navigation.account')
