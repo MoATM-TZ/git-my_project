@@ -59,6 +59,11 @@ class User extends Authenticatable
         return $this->hasMany(Resource::class);
     }
 
+    public function platformAnnouncements(): HasMany
+    {
+        return $this->hasMany(PlatformAnnouncement::class);
+    }
+
     /** Comments posted across the platform. */
     public function comments(): HasMany
     {

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminResourceController;
 use App\Http\Controllers\Admin\AdminReportController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\AdminAnnouncementController;
 use App\Http\Controllers\Admin\AcademicController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\Auth\LoginController;
@@ -109,6 +110,9 @@ Route::middleware(['auth', 'active', 'approved'])->group(function (): void {
         Route::patch('/classes/{courseClass}', [AcademicController::class, 'updateClass'])->name('classes.update');
         Route::delete('/classes/{courseClass}', [AcademicController::class, 'destroyClass'])->name('classes.destroy');
         Route::get('/reports', [AdminReportController::class, 'index'])->name('reports.index');
+        Route::get('/announcements', [AdminAnnouncementController::class, 'index'])->name('announcements.index');
+        Route::post('/announcements', [AdminAnnouncementController::class, 'store'])->name('announcements.store');
+        Route::delete('/announcements/{announcement}', [AdminAnnouncementController::class, 'destroy'])->name('announcements.destroy');
         Route::patch('/reports/{report}/dismiss', [AdminReportController::class, 'dismiss'])->name('reports.dismiss');
         Route::delete('/reports/{report}/resolve', [AdminReportController::class, 'resolve'])->name('reports.resolve');
         Route::patch('/reports/{report}/keep', [AdminResourceController::class, 'keep'])->name('reports.keep');

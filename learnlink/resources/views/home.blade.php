@@ -9,10 +9,12 @@
             <h1 class="ll-hero-title">Learn from the community.</h1>
             <p class="ll-hero-sub">Browse notes, slides, past papers and books shared by fellow students and educators.</p>
             <div class="ll-hero-actions">
-                <a href="{{ route('search.index') }}" class="ll-btn ll-btn-primary">
-                    <x-icon name="search" :size="16" /> Explore resources
-                </a>
                 @auth
+                    @if(auth()->user()->hasRole('student'))
+                        <a href="{{ route('search.index') }}" class="ll-btn ll-btn-primary">
+                            <x-icon name="search" :size="16" /> Explore resources
+                        </a>
+                    @endif
                     <a href="{{ route('resources.create') }}" class="ll-btn ll-btn-outline">
                         <x-icon name="upload" :size="16" /> Upload a resource
                     </a>
@@ -115,12 +117,5 @@
                 <a href="{{ route('admin.dashboard') }}" class="ll-btn ll-btn-primary">Open admin dashboard</a>
             </section>
         @endif
-    @else
-        <section class="ll-card ll-rail" aria-label="Join LearnLink">
-            <h2>Join the LearnLink community</h2>
-            <p>Log in or create an account to discover and share learning resources.</p>
-            <a href="{{ route('login') }}" class="ll-btn ll-btn-primary">Log in</a>
-            <a href="{{ route('register') }}" class="ll-btn ll-btn-outline">Create an account</a>
-        </section>
     @endauth
 @endsection

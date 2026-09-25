@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Announcement;
 use App\Models\Resource;
+use App\Models\PlatformAnnouncement;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -38,6 +39,7 @@ class StudentDashboardController extends Controller
 
         return view('student.dashboard', [
             'notices' => $notices,
+            'platformAnnouncements' => PlatformAnnouncement::with('author:id,name')->latest()->take(5)->get(),
             'resources' => $resources,
             'stats' => [
                 'uploads' => $uploads->count(),

@@ -1,3 +1,42 @@
 @extends('layouts.app')
-@section('title','Lecturer dashboard')
-@section('content')<section class="ll-page-head"><h1>Your classes</h1><p>Create and manage courses for the current academic period.</p></section><form method="POST" action="{{ route('lecturer.classes.store') }}" class="ll-card ll-form">@csrf <h2>Add a new class</h2><div class="ll-field"><label class="ll-label" for="program_id">Link to an academic course (optional)</label><select class="ll-input" id="program_id" name="program_id"><option value="">No linked course</option>@foreach($programs as $program)<option value="{{ $program->id }}" @selected(old('program_id') == $program->id)>{{ $program->name }} · {{ $program->department->name }}</option>@endforeach</select></div><div class="ll-grid">@foreach(['course_title'=>'Course name','course_code'=>'Course code','department'=>'Department','academic_year'=>'Academic year (e.g. 2026/2027)','semester'=>'Semester'] as $field=>$label)<div class="ll-field"><label class="ll-label">{{ $label }}</label><input class="ll-input" name="{{ $field }}" value="{{ old($field) }}" required></div>@endforeach</div><button class="ll-btn ll-btn-primary">Add class</button></form><section class="ll-rail"><div class="ll-grid">@forelse($classes as $class)<article class="ll-card"><h2>{{ $class->course_code }}</h2><p>{{ $class->course_title }}</p><p class="ll-muted">{{ $class->department }} · {{ $class->semester }} · {{ $class->academic_year }} · {{ $class->students_count }} students</p><a class="ll-btn ll-btn-outline" href="{{ route('lecturer.classes.show',$class) }}">Open class</a></article>@empty<p>No active classes yet.</p>@endforelse</div></section>@endsection
+@section('title', 'Lecturer dashboard')
+@section('content')
+<section class="ll-page-head">
+    <h1>Your classes</h1>
+    <p>Create and manage courses for the current academic period.</p>
+</section>
+
+<section class="ll-card">
+    <h2>Platform announcements</h2>
+    @forelse($platformAnnouncements as $announcement)
+        <article><strong>{{ $announcement->title }}</strong><p>{{ $announcement->body }}</p><small class="ll-muted">{{ $announcement->created_at->diffForHumans() }}</small></article>
+    @empty
+        <p>No platform announcements.</p>
+    @endforelse
+</section>
+
+<form method="POST" action="{{ route('lecturer.classes.store') }}" class="ll-card ll-form">
+    @csrf
+    <h2>Add a new class</h2>
+    <div class="ll-field">
+        <label class="ll-label" for="program_id">Link to an academic course (optional)</label>
+        <select class="ll-input" id="program_id" name="program_id"><option value="">No linked course</option>@foreach($programs as $program)<option value="{{ $program->id }}" @selected(old('program_id') == $program->id)>{{ $program->name }} · {{ $program->department->name }}</option>@endforeach</select>
+    </div>
+    <div class="ll-grid">
+        @foreach(['course_title' => 'Course name', 'course_code' => 'Course code', 'department' => 'Department', 'academic_year' => 'Academic year (e.g. 2026/2027)', 'semester' => 'Semester'] as $field => $label)
+            <div class="ll-field"><label class="ll-label" for="{{ $field }}">{{ $label }}</label><input class="ll-input" id="{{ $field }}" name="{{ $field }}" value="{{ old($field) }}" required></div>
+        @endforeach
+    </div>
+    <button class="ll-btn ll-btn-primary">Add class</button>
+</form>
+
+<section class="ll-rail">
+    <div class="ll-grid">
+        @forelse($classes as $class)
+            <article class="ll-card"><h2>{{ $class->course_code }}</h2><p>{{ $class->course_title }}</p><p class="ll-muted">{{ $class->department }} · {{ $class->semester }} · {{ $class->academic_year }} · {{ $class->students_count }} students</p><a class="ll-btn ll-btn-outline" href="{{ route('lecturer.classes.show', $class) }}">Open class</a></article>
+        @empty
+            <p>No active classes yet.</p>
+        @endforelse
+    </div>
+</section>
+@endsection

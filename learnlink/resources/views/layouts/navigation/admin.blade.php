@@ -10,5 +10,6 @@
     <a href="{{ route('admin.dashboard') }}" @class(['ll-nav-link', 'is-active' => request()->routeIs('admin.dashboard')])>System Dashboard</a>
     <a href="{{ route('admin.approvals.index') }}" @class(['ll-nav-link', 'is-active' => request()->routeIs('admin.approvals.*')])>Pending Approvals <span class="ll-badge ll-nav-count">{{ $pendingApprovals }}</span></a>
     <a href="{{ route('admin.reports.index') }}" @class(['ll-nav-link', 'is-active' => request()->routeIs('admin.reports.*')])>Reports <span class="ll-badge ll-nav-count">{{ $openReports }}</span></a>
+    <a href="{{ route('admin.announcements.index') }}" @class(['ll-nav-link', 'is-active' => request()->routeIs('admin.announcements.*')])>Announcements</a>
 </nav>
 @include('layouts.navigation.account')

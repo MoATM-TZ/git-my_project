@@ -69,6 +69,7 @@
             <a href="{{ route('admin.users.index') }}" style="background-color: #f8fafc; border: 1px solid #cbd5e1; color: #334155; padding: 10px 18px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none;">User Management</a>
             <a href="{{ route('admin.academic.index') }}" style="background-color: #f8fafc; border: 1px solid #cbd5e1; color: #334155; padding: 10px 18px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none;">Academic Setup</a>
             <a href="{{ route('admin.reports.index') }}" style="background-color: #f8fafc; border: 1px solid #cbd5e1; color: #334155; padding: 10px 18px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none;">Content Moderation</a>
+            <a href="{{ route('admin.announcements.index') }}" style="background-color: #f8fafc; border: 1px solid #cbd5e1; color: #334155; padding: 10px 18px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none;">Platform Announcements</a>
             <a href="#system-logs" style="background-color: #f8fafc; border: 1px solid #cbd5e1; color: #334155; padding: 10px 18px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none;">System Logs</a>
         </div>
         <p id="system-logs" style="font-size: 13px; color: #64748b; margin: 20px 0 0; padding-top: 16px; border-top: 1px solid #f1f5f9;">Application logs are available to deployment administrators through the server log channel.</p>
