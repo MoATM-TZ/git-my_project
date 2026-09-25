@@ -39,7 +39,7 @@ class StudentDashboardController extends Controller
 
         return view('student.dashboard', [
             'notices' => $notices,
-            'platformAnnouncements' => PlatformAnnouncement::with('author:id,name')->latest()->take(5)->get(),
+            'platformAnnouncements' => PlatformAnnouncement::where('display_type', 'card')->with('author:id,name')->latest()->take(5)->get(),
             'resources' => $resources,
             'stats' => [
                 'uploads' => $uploads->count(),

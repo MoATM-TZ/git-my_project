@@ -15,6 +15,19 @@
 .ll-auth-card > .ll-form { padding:24px 0 0; }
 .ll-auth-alt { margin:18px 0 0; text-align:center; }
 .ll-dashboard-contributions { margin-top:14px; }
+.ll-announcement-alert { position:sticky; top:0; z-index:100; color:#fff; background:#b42318; box-shadow:0 3px 12px #10182826; }
+.ll-announcement-alert-inner { display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; padding:10px 16px; text-align:center; }
+.ll-announcement-alert-inner a { color:#fff; font-weight:800; text-decoration:underline; }
+.ll-announcement-alert-image { width:36px; height:36px; border-radius:6px; object-fit:cover; }
+.ll-announcement-hero { position:relative; isolation:isolate; overflow:hidden; min-height:260px; margin:24px 0; border-radius:20px; color:#fff; background:linear-gradient(110deg,#312e81,#4f46e5 58%,#7c3aed); box-shadow:0 16px 36px #312e8130; }
+.ll-announcement-hero::before { position:absolute; z-index:-1; inset:0; background-image:linear-gradient(90deg,#111827e8 0%,#111827a8 58%,#11182730 100%),var(--announcement-image,none); background-size:cover; background-position:center; content:""; }
+.ll-announcement-hero-content { position:relative; z-index:1; max-width:760px; padding:36px clamp(20px,5vw,56px); }
+.ll-announcement-hero h2 { margin:0 0 10px; font-size:clamp(1.65rem,4vw,2.6rem); line-height:1.1; }
+.ll-announcement-hero p { max-width:650px; line-height:1.6; }
+.ll-announcement-eyebrow { margin:0 0 8px; font-size:.78rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+.ll-announcement-hero-image { position:absolute; z-index:-2; inset:0; width:100%; height:100%; object-fit:cover; }
+.ll-announcement-card { margin:18px 0; }
+.ll-announcement-card-image { display:block; width:100%; max-height:260px; margin-bottom:16px; border-radius:12px; object-fit:cover; }
 @media (max-width:640px) { .ll-auth { padding:28px 12px; border-radius:16px; }.ll-auth-card { padding:26px 20px; } }
 .ll-approval-icon { display:grid; place-items:center; width:44px; height:44px; margin-bottom:18px; border-radius:50%; color:#4338ca; background:#e0e7ff; font-size:1.35rem; font-weight:800; }
 .ll-approval-list { padding:0 20px; }

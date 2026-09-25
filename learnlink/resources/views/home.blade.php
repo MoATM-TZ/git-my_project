@@ -23,8 +23,33 @@
         </div>
     </section>
 
+    @foreach($heroAnnouncements as $announcement)
+        <section class="ll-announcement-hero" @if($announcement->banner_image) style="--announcement-image: url('{{ \Illuminate\Support\Facades\Storage::disk('public')->url($announcement->banner_image) }}')" @endif>
+            <div class="ll-announcement-hero-content">
+                <p class="ll-announcement-eyebrow">Announcement</p>
+                <h2>{{ $announcement->title }}</h2>
+                <p>{{ $announcement->body }}</p>
+                @if($announcement->action_label && $announcement->action_url)
+                    <a href="{{ $announcement->action_url }}" class="ll-btn ll-btn-primary" target="_blank" rel="noopener noreferrer">{{ $announcement->action_label }}</a>
+                @endif
+            </div>
+            @if($announcement->banner_image)
+                <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($announcement->banner_image) }}" alt="" class="ll-announcement-hero-image">
+            @endif
+        </section>
+    @endforeach
+
     @auth
         @if(auth()->user()->hasRole('student'))
+
+    @foreach($cardAnnouncements as $announcement)
+        <section class="ll-card ll-announcement-card">
+            @if($announcement->banner_image)<img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($announcement->banner_image) }}" alt="" class="ll-announcement-card-image">@endif
+            <h2>{{ $announcement->title }}</h2>
+            <p>{{ $announcement->body }}</p>
+            @if($announcement->action_label && $announcement->action_url)<a class="ll-btn ll-btn-primary" href="{{ $announcement->action_url }}" target="_blank" rel="noopener noreferrer">{{ $announcement->action_label }}</a>@endif
+        </section>
+    @endforeach
 
     {{-- Category chips --}}
     @if ($categories->isNotEmpty())

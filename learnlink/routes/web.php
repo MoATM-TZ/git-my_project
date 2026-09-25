@@ -112,6 +112,8 @@ Route::middleware(['auth', 'active', 'approved'])->group(function (): void {
         Route::get('/reports', [AdminReportController::class, 'index'])->name('reports.index');
         Route::get('/announcements', [AdminAnnouncementController::class, 'index'])->name('announcements.index');
         Route::post('/announcements', [AdminAnnouncementController::class, 'store'])->name('announcements.store');
+        Route::get('/announcements/{announcement}/edit', [AdminAnnouncementController::class, 'edit'])->name('announcements.edit');
+        Route::put('/announcements/{announcement}', [AdminAnnouncementController::class, 'update'])->name('announcements.update');
         Route::delete('/announcements/{announcement}', [AdminAnnouncementController::class, 'destroy'])->name('announcements.destroy');
         Route::patch('/reports/{report}/dismiss', [AdminReportController::class, 'dismiss'])->name('reports.dismiss');
         Route::delete('/reports/{report}/resolve', [AdminReportController::class, 'resolve'])->name('reports.resolve');

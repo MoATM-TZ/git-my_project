@@ -9,6 +9,20 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="ll-app">
+    @if($urgentAnnouncement)
+        <aside class="ll-announcement-alert" role="alert">
+            <div class="ll-announcement-alert-inner">
+                @if($urgentAnnouncement->banner_image)
+                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($urgentAnnouncement->banner_image) }}" alt="" class="ll-announcement-alert-image">
+                @endif
+                <strong>{{ $urgentAnnouncement->title }}</strong>
+                <span>{{ $urgentAnnouncement->body }}</span>
+                @if($urgentAnnouncement->action_label && $urgentAnnouncement->action_url)
+                    <a href="{{ $urgentAnnouncement->action_url }}" target="_blank" rel="noopener noreferrer">{{ $urgentAnnouncement->action_label }}</a>
+                @endif
+            </div>
+        </aside>
+    @endif
     <header class="ll-header">
         <div class="ll-container ll-header-inner">
             @include('layouts.navigation')

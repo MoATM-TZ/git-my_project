@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Resource;
 use App\Models\User;
+use App\Models\PlatformAnnouncement;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -38,6 +39,12 @@ class HomeController extends Controller
             ->limit(5)
             ->get(['id', 'name', 'reputation_points']);
 
+        $heroAnnouncements = PlatformAnnouncement::where('display_type', 'hero_banner')
+            ->latest()
+            ->take(3)
+            ->get();
+        $cardAnnouncements = PlatformAnnouncement::where('display_type', 'card')->latest()->take(3)->get();
+
         $categories = Resource::published()
             ->selectRaw('category, count(*) as total')
             ->groupBy('category')
@@ -49,6 +56,8 @@ class HomeController extends Controller
             'popular'         => $popular,
             'trending'        => $trending,
             'topContributors' => $topContributors,
+            'heroAnnouncements' => $heroAnnouncements,
+            'cardAnnouncements' => $cardAnnouncements,
             'categories'      => $categories,
         ]);
     }

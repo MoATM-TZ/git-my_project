@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PlatformAnnouncement extends Model
 {
-    protected $fillable = ['user_id', 'title', 'body'];
+    protected $fillable = ['user_id', 'title', 'body', 'banner_image', 'display_type', 'action_label', 'action_url'];
 
     public function author(): BelongsTo
     {
